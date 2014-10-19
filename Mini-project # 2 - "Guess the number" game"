@@ -1,0 +1,113 @@
+# Mini project 2 
+# Guess the number
+
+import simplegui
+import random
+import math
+
+
+
+
+# helper function to start and restart the game
+def new_game(low, high):
+    
+    global secret_number,remain_time,current_range
+    
+    secret_number = random.randrange(low,high)
+    
+    remain_time = int(math.ceil(math.log(high - low + 1, 2)))
+    
+    if high == 100:
+        current_range = True
+    else :
+        current_range = False
+    
+    
+    
+    print ''
+    print "New Game. Range is from", low, "to", high
+    print  "Number of remaining guess is", remain_time
+    print ''
+
+
+
+    
+    
+# define event handlers for control panel
+def range100():
+    
+    new_game(0,100)
+    
+    
+def range1000():
+    
+    new_game(0, 1000)
+    
+    
+def input_guess(guess):
+            
+    guess = int(guess)
+    global remain_time 
+    print ''
+    print "Guess was", guess
+    
+    remain_time -= 1   
+    print  "Number of remaining guess is", remain_time
+    
+    if remain_time >= 1:
+        
+        if guess < secret_number:
+            print "Higher"
+        
+        elif guess > secret_number:
+            print "Lower"
+        
+        elif guess == secret_number:
+            print "Correct!"
+           
+            if current_range:
+                
+                new_game(0,100)
+                
+            else:
+                new_game(0,1000)
+        
+        
+        
+        
+    else:
+        if guess == secret_number:
+            print "Correct"
+        else:
+            print "You ran out of guesses . The nummber was", secret_number
+            
+        if current_range:
+            
+            new_game(0,100)
+            
+        else:
+            
+            new_game(0,1000)
+    
+    
+    
+        
+       
+    
+    
+# create frame
+frame = simplegui.create_frame("Guess the Number", 200, 200)
+
+frame.add_input("Enter a guess", input_guess, 200)
+frame.add_button("Range is [0,100)", range100,200)
+frame.add_button("Range is [0,1000)", range1000,200)
+
+
+
+
+
+
+# call new_game 
+new_game(0,100)
+
+
